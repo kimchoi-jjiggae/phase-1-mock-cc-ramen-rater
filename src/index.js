@@ -20,8 +20,6 @@ document.addEventListener("DOMContentLoaded", e =>
 function renderRamen(ramen){
     let ramenItem = document.createElement('img')
     ramenItem.src = ramen.image
-    // set class name equal to index +1, which is the ID
-    // ramenItem.className = id;
     ramenMenu.append(ramenItem)
     ramenItem.addEventListener("click", e=> featureRamen(ramen))
 
@@ -57,8 +55,10 @@ addForm.addEventListener("submit", e=> {
       .then(res=> res.json())
       .then(data => 
         {
-            renderRamen(data, data.id)
-            form.reset()
+            window.location.reload()
+            // renderRamen(data, data.id)
+            // featureRamen(data)
+            // form.reset()
         })
 })
 
@@ -81,6 +81,22 @@ editForm.addEventListener("submit", e=> {
       .then(res=> res.json())
       .then(data => 
         {
-            featureRamen(data)
+            window.location.reload()
+            // featureRamen(data)
         })
+})
+
+document.getElementById('delete').addEventListener("click", e=>
+{
+    id = ramenDetail.classList[0]
+
+    fetch(`http://localhost:3000/ramens/${id}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "DELETE",
+    })
+    .then(res=>res.json())
+    .then(window.location.reload())
 })
